@@ -2,6 +2,7 @@ package ssd8.socket.server;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 
 /**
  * Project : HttpService
@@ -108,7 +109,7 @@ public abstract class Req
     }
 
     // Analyse the request message
-    public abstract void doRequest() throws IOException;
+    public abstract void doRequest() throws IOException, URISyntaxException;
 
     // Respond to the client
     public abstract void doResponse(OutputStream os) throws IOException;

@@ -2,6 +2,7 @@ package ssd8.socket.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.URISyntaxException;
 
 /**
  * Project : HttpService
@@ -67,6 +68,17 @@ public class ReqHandler implements Runnable
             //Send response to the client
             req.doResponse(os);
         }
+        catch (URISyntaxException ue)
+        {
+            try
+            {
+                //Send 400 error message if the request message is not correct as it is specify in the document
+                req.doErrorResponse(os,400);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
         catch (FileNotFoundException fnfe){
             try
             {
@@ -122,7 +134,7 @@ public class ReqHandler implements Runnable
      * Check the type of request
      * @param requestLine the request line contained in request
      */
-    private void CheckRequest(String requestLine) throws IOException
+    private void CheckRequest(String requestLine) throws IOException, URISyntaxException
     {
         if (requestLine.startsWith("GET") && (requestLine.endsWith("HTTP/1.0") || requestLine.endsWith("HTTP/1.1")) )
         {

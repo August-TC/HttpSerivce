@@ -173,9 +173,7 @@ public class HttpClient {
 	 */
 	private File getPutFile(String request)
 	{
-		String[] info = request.split(" ");
-        String[] res = info[1].split("/");
-        File file = new File(res[res.length-1]);
+        File file = new File("face.jpg");
 		return file.isFile() ? file : null;
 	}
 

@@ -2,6 +2,8 @@ package ssd8.socket.server;
 
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Project : HttpService
@@ -10,6 +12,9 @@ import java.io.*;
  */
 public class ReqGet extends Req
 {
+    //The uri contained in request
+    private URI uri;
+
     //The name of the file required
     private String filename;
 
@@ -30,7 +35,7 @@ public class ReqGet extends Req
      * Analyse the request message
      */
     @Override
-    public void doRequest() throws FileNotFoundException
+    public void doRequest() throws FileNotFoundException, URISyntaxException
     {
         /**
          * Analyse the request line and get the method and version used in request
@@ -40,7 +45,8 @@ public class ReqGet extends Req
         {
             throw new IllegalArgumentException("Wrong Request message!");
         }
-        filename = segments[1];
+        uri = new URI(segments[1]);
+        filename = uri.getPath();
         setHttp(segments[2]);
 
         //Check if the root path is viewed

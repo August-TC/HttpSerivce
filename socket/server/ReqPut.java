@@ -1,6 +1,8 @@
 package ssd8.socket.server;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Project : HttpService
@@ -9,11 +11,17 @@ import java.io.*;
  */
 public class ReqPut extends Req
 {
+    //The uri contained in request
+    private URI uri;
+
     //A byte[] used as Buffer to receive the file put from client
     private byte[] bufferPut;
 
     //The BufferedReader used in reading content in the request
     private BufferedInputStream bis;
+
+    //The name of the file required
+    private String filename;
 
     /**
      * Construct a ReqPut Object with a request line
@@ -30,7 +38,7 @@ public class ReqPut extends Req
      * Analyse the request message
      */
     @Override
-    public void doRequest() throws IOException
+    public void doRequest() throws IOException, URISyntaxException
     {
         /**
          * Analyse the request line and get the method and version used in request
@@ -40,7 +48,8 @@ public class ReqPut extends Req
         {
             throw new IllegalArgumentException("Wrong Request message!");
         }
-        String filename = segments[1];
+        uri = new URI(segments[1]);
+        filename = uri.getPath();
         setHttp(segments[2]);
 
         /**
